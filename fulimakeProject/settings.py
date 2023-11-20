@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # REST
-    # 'rest_framework',
+    'rest_framework',
     # 'drf_yasg',
     # CROS
     'corsheaders',
@@ -54,14 +54,27 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# REST_FRAMEWORK = {
-#     # Use Django's standard `django.contrib.auth` permissions,
-#     # or allow read-only access for unauthenticated users.
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#     ]
-# }
-#
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'DEFAULT_RENDER_CLASSES': [
+        'rest_framework.renders.JSONRenderer',
+        'rest_framework.renders.BrowsableAPIRenderer'
+    ],
+    'DEFAULT_PASER_CLASSES': [
+        # 解析request.data
+        'rest_framework.parsers.JSONParser'
+        'rest_framework.parsers.FormParser'
+        'rest_framework.parsers.MultiPartParser'
+    ],
+
+    'PAGE_SIZE': 10
+}
+
 # # 配置Django REST framework 的文档视图
 # SWAGGER_SETTINGS = {
 #     'DEFAULT_GENERATOR_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
