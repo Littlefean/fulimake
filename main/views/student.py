@@ -46,7 +46,7 @@ def add_student(request):
 
 def query_student_score_history(req):
     """
-    查询一学生的分数历史
+    查询一个学生的分数历史
     """
     try:
         student_id = req.GET.get('id', 1)
