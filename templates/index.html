@@ -1,0 +1,49 @@
+{% load static %} <!-- 加载静态文件 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index of main</title>
+</head>
+<body>
+test
+<main>
+    <h1>test</h1>
+    <button onclick="handleTest()">test</button>
+    <button onclick="handleTestFunc()">testFunc</button>
+    <h1>获取政府</h1>
+    <button onclick="handleGetGov()">获取</button>
+    <h1>添加政府</h1>
+    <input type="text" class="govInput">
+    <button onclick="handleAddGov()">add</button>
+</main>
+</body>
+<script src="{% static 'js/tools.js' %}"></script>
+<script>
+    function handleTestFunc() {
+        sysFetch.get('main/test-func', res => {
+            console.log(res)
+        })
+    }
+    function handleTest() {
+        sysFetch.get('main/test', res => {
+            console.log(res)
+        })
+    }
+
+    function handleGetGov() {
+        sysFetch.get('main/government/', res => {
+            console.log(res);
+        })
+    }
+
+    function handleAddGov() {
+        const govInput = document.querySelector(".govInput");
+        sysFetch.post('main/government/', {name: govInput.value}, res => {
+            console.log(res);
+        })
+        // alert(govInput.value);
+    }
+</script>
+</html>
