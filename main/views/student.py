@@ -3,45 +3,54 @@
 """
 from django.http import JsonResponse
 from django.db import transaction
+from django.views import View
+
 from main.models import School, ClassRoom, Student, UnionExam, Course, UnionExamCourseScore
 from main.tools.randomName import get_random_name
 
 
-@transaction.atomic
-def add_student(request):
-    """
-    涌入一批学生
-    遍历每一个学校的每一个班级，如果该班级不够40人，则随机生成学生补齐
-    """
-    try:
-        # 遍历每一个学校
-        schools = School.objects.all()
+class StudentView(View):
+    def get(self):
+        """
 
-        for school in schools:
-            print(school)
-            class_rooms = ClassRoom.objects.filter(school_id=school)
-            for class_room in class_rooms:
-                # 看看这个班级有多少学生
-                count = Student.objects.filter(class_room_id=class_room).count()
-                print('\t', class_room, count)
-                if count >= 40:
-                    continue
-                # 如果这个班不足40个学生，则随机生成学生补齐40个
-                students = [
-                    Student(
-                        name=get_random_name(),
-                        class_room_id=class_room
-                    ) for _ in range(40 - count)
-                ]
-                Student.objects.bulk_create(students)
+        """
+        ...
 
-        return JsonResponse({
-            'text': 'success'
-        })
-    except Exception as e:
-        return JsonResponse({
-            'text': f'fail, {e}'
-        })
+    @transaction.atomic
+    def post(self, request):
+        """
+        涌入一批学生
+        遍历每一个学校的每一个班级，如果该班级不够40人，则随机生成学生补齐
+        """
+        try:
+            # 遍历每一个学校
+            schools = School.objects.all()
+
+            for school in schools:
+                print(school)
+                class_rooms = ClassRoom.objects.filter(school_id=school)
+                for class_room in class_rooms:
+                    # 看看这个班级有多少学生
+                    count = Student.objects.filter(class_room_id=class_room).count()
+                    print('\t', class_room, count)
+                    if count >= 40:
+                        continue
+                    # 如果这个班不足40个学生，则随机生成学生补齐40个
+                    students = [
+                        Student(
+                            name=get_random_name(),
+                            class_room_id=class_room
+                        ) for _ in range(40 - count)
+                    ]
+                    Student.objects.bulk_create(students)
+
+            return JsonResponse({
+                'text': 'success'
+            })
+        except Exception as e:
+            return JsonResponse({
+                'text': f'fail, {e}'
+            })
 
 
 def query_student_score_history(req):

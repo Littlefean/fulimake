@@ -9,8 +9,7 @@ from main.models import Government
 @method_decorator(csrf_protect, name='dispatch')
 class GovernmentView(View):
 
-    @staticmethod
-    def get(request):
+    def get(self, request):
         print("获取政府")
         try:
             government_list = list(Government.objects.all().values())
@@ -24,8 +23,7 @@ class GovernmentView(View):
                 "text": f'{e}',
             }, status=500)
 
-    @staticmethod
-    def post(request):
+    def post(self, request):
         print("增加新的政府")
 
         try:

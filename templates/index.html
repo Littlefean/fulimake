@@ -32,8 +32,11 @@
         <h2>获取全部学校</h2>
         <button onclick="handleGetSchool()">get</button>
         <div class="schools">
-
         </div>
+        <h2>增加学校</h2>
+        <button onclick="handleAddSchool()">增加</button>
+        <h2>学生</h2>
+        <button onclick="handleAddRandomStudent()">涌入一批随机学生</button>
     </main>
 </body>
 <script src="{% static 'js/tools.js' %}"></script>
@@ -97,8 +100,24 @@
         })
     }
 
+    function handleAddSchool() {
+        sysFetch.post(`main/school/`, {
+
+        }, res => {
+            console.log(res);
+        })
+    }
+
+    function handleAddRandomStudent() {
+        sysFetch.post(`main/student/`, {
+
+        }, res => {
+            alert(JSON.stringify(res));
+        })
+    }
+
     function handleGetSchool() {
-        sysFetch.get(`main/show-all-school/`, res => {
+        sysFetch.get(`main/school/`, res => {
             console.log(res);
             const schools = document.querySelector('.schools');
             for (const school of res.data) {
