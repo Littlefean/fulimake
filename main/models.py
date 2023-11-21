@@ -1,6 +1,17 @@
 from django.db import models
 
 
+# ===存粹用来测试的模型
+class Hello(models.Model):
+    objects = models.Manager()
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+# ===
+
 class Government(models.Model):
     """政府"""
     objects = models.Manager()

@@ -10,8 +10,9 @@ from .views.school import add_random_school, show_all_school
 from .views.pages import index
 
 urlpatterns = [
-    path("", HelloView.as_view()),
-    path('hello/', HelloView.as_view()),
+    # path("", HelloView.as_view()),
+    path('hello/<int:pk>/', HelloView.as_view()),
+
     path('government/', GovernmentView.as_view()),
     path('test/', TestView.as_view()),
     path('test-func/', test),
@@ -23,6 +24,7 @@ urlpatterns = [
     path('init-course/', init_course),
     path('course/', CourseView.as_view()),
     path('new-random-exam/', create_and_test),
+
     # page
     path('index/', index)
 ]

@@ -3,10 +3,14 @@ from django.contrib import admin
 # Register your models here.
 from .models import (
     Government,
-    School, Teacher,
-    Student, ClassRoom,
-    User, UnionExam,
-    Course
+    School,
+    Teacher,
+    Student,
+    ClassRoom,
+    User,
+    UnionExam,
+    Course,
+    Hello
 )
 
 admin.site.register(Government)
@@ -17,3 +21,5 @@ admin.site.register(ClassRoom)
 admin.site.register(User)
 admin.site.register(UnionExam)
 admin.site.register(Course)
+
+admin.site.register(Hello)

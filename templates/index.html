@@ -2,22 +2,31 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Index of main</title>
 </head>
+
 <body>
-test
-<main>
-    <h1>test</h1>
-    <button onclick="handleTest()">test</button>
-    <button onclick="handleTestFunc()">testFunc</button>
-    <h1>获取政府</h1>
-    <button onclick="handleGetGov()">获取</button>
-    <h1>添加政府</h1>
-    <input type="text" class="govInput">
-    <button onclick="handleAddGov()">add</button>
-</main>
+    test
+    <main>
+        <h1>test</h1>
+        <button onclick="handleTest()">test</button>
+        <button onclick="handleTestFunc()">testFunc</button>
+        <h1>获取政府</h1>
+        <button onclick="handleGetGov()">获取</button>
+        <h1>添加政府</h1>
+        <input type="text" class="govInput">
+        <button onclick="handleAddGov()">add</button>
+        <h2>hello Test</h2>
+        <input type="text" class="helloInput" placeholder="id">
+        <input type="text" class="helloInputName" placeholder="name">
+        <button onclick="handleHelloGet()">get</button>
+        <button onclick="handleHelloPost()">post</button>
+        <button onclick="handleHelloPut()">put</button>
+        <button onclick="handleHelloDelete()">delete</button>
+    </main>
 </body>
 <script src="{% static 'js/tools.js' %}"></script>
 <script>
@@ -40,10 +49,45 @@ test
 
     function handleAddGov() {
         const govInput = document.querySelector(".govInput");
-        sysFetch.post('main/government/', {name: govInput.value}, res => {
+        sysFetch.post('main/government/', { name: govInput.value }, res => {
             console.log(res);
         })
-        // alert(govInput.value);
+    }
+
+    function handleHelloGet() {
+        const helloInput = document.querySelector(".helloInput").value;
+        sysFetch.get(`main/hello/${helloInput}/`, res => {
+            console.log(res);
+        })
+    }
+
+    function handleHelloPut() {
+        const helloInput = document.querySelector(".helloInput").value;
+        const helloInputName = document.querySelector(".helloInputName").value;
+
+        fetch(`http://localhost:8000/main/hello/${helloInput}/`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ name: helloInputName }),
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+            });
+
+        // console.log(114514);
+        // sysFetch.put(`main/hello/${helloInput}/`, {name: helloInputName}, res => {
+        //     console.log(res, '////');
+        // });
+    }
+    function handleHelloDelete() {
+        const helloInput = document.querySelector(".helloInput").value;
+        sysFetch.delete(`main/hello/${helloInput}/`, res => {
+            console.log(res);
+        })
     }
 </script>
+
 </html>

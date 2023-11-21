@@ -70,7 +70,7 @@ class sysFetch {
     }
 
     static put(urlFix, sendJson, resFunc) {
-        this._fetch(urlFix, sendJson, resFunc, "PUT", sendJson);
+        this._fetch(urlFix, resFunc, "PUT", sendJson);
     }
 
     static delete(urlFix, resFunc) {
