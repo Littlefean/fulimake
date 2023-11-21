@@ -1,10 +1,33 @@
 from django.db import transaction
 from django.http import JsonResponse
+from django.views import View
 
 from main.models import Government, School, ClassRoom, Teacher, Student
 from random import randint, choice, sample
 
 from ..tools.randomName import get_random_name
+
+
+class SchoolView(View):
+    @staticmethod
+    def get(_):
+        res = []
+        for school in School.objects.all():
+            school_obj = {
+                "name": school.name,
+                "classes": []
+            }
+            for class_room in ClassRoom.objects.filter(school_id=school):
+                students = Student.objects.filter(class_room_id=class_room).values('name')
+                school_obj["classes"].append({
+                    "className": str(class_room),
+                    "students": list(students)
+                })
+                print(students)
+            res.append(school_obj)
+        return JsonResponse({
+            "data": res
+        })
 
 
 @transaction.atomic
@@ -28,17 +51,6 @@ def add_random_school(request):
         # 批量创建10*老师
         teachers = [Teacher(name=get_random_name(), school_id=school) for _ in range(10)]
         Teacher.objects.bulk_create(teachers)
-
-        # 开始随机生成班级，一下子创建是个班级
-        # for i in range(1, 10):
-        #     cls = ClassRoom.objects.create(
-        #         grade=2019,
-        #         class_number=i,
-        #         school_id=school
-        #     )
-        #     # 给这个班级随机分配四个老师
-        #     # 踩坑：cls不能直接.add，要在它的多对多key上调用add方法
-        #     cls.teachers.add(*sample(teachers, 4))
 
         # 批量创建班级
         classrooms = [ClassRoom(grade=2019, class_number=i, school_id=school) for i in range(1, 10)]

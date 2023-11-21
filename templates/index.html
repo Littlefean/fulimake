@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Index of main</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 
 <body>
@@ -20,12 +21,19 @@
         <input type="text" class="govInput">
         <button onclick="handleAddGov()">add</button>
         <h2>hello Test</h2>
-        <input type="text" class="helloInput" placeholder="id">
-        <input type="text" class="helloInputName" placeholder="name">
-        <button onclick="handleHelloGet()">get</button>
-        <button onclick="handleHelloPost()">post</button>
-        <button onclick="handleHelloPut()">put</button>
-        <button onclick="handleHelloDelete()">delete</button>
+        <div>
+            <input type="text" class="helloInput" placeholder="id">
+            <input type="text" class="helloInputName" placeholder="name">
+            <button onclick="handleHelloGet()">get</button>
+            <button onclick="handleHelloPost()">post</button>
+            <button onclick="handleHelloPut()">put</button>
+            <button onclick="handleHelloDelete()">delete</button>
+        </div>
+        <h2>获取全部学校</h2>
+        <button onclick="handleGetSchool()">get</button>
+        <div class="schools">
+
+        </div>
     </main>
 </body>
 <script src="{% static 'js/tools.js' %}"></script>
@@ -86,6 +94,36 @@
         const helloInput = document.querySelector(".helloInput").value;
         sysFetch.delete(`main/hello/${helloInput}/`, res => {
             console.log(res);
+        })
+    }
+
+    function handleGetSchool() {
+        sysFetch.get(`main/show-all-school/`, res => {
+            console.log(res);
+            const schools = document.querySelector('.schools');
+            for (const school of res.data) {
+                const schoolDiv = document.createElement('div');
+                const schoolH2 = document.createElement('h2');
+                schoolH2.innerText = school.name;
+                schoolDiv.appendChild(schoolH2);
+
+                for (const classRoom of school.classes) {
+                    const classDiv = document.createElement('div');
+                    const classH4 = document.createElement('h4');
+                    classH4.innerText = classRoom.className;
+                    classDiv.appendChild(classH4);
+
+                    for (const student of classRoom.students) {
+                        const span = document.createElement('span');
+                        span.innerText = student.name;
+                        classDiv.appendChild(span);
+                    }
+
+                    schoolDiv.appendChild(classDiv);
+                }
+
+                schools.appendChild(schoolDiv);
+            }
         })
     }
 </script>

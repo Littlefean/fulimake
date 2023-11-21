@@ -13,7 +13,6 @@ class HelloView(APIView):
     constHello = "this is Const Hello"
 
     def get_obj(self, pk):
-
         try:
             return Hello.objects.get(pk=pk)
         except Hello.DoesNotExist:

@@ -1,12 +1,12 @@
 from django.urls import path, include
 
-from .views.course import init_course, CourseView
-from .views.exam import create_and_test
+from .views.course import CourseView, CourseInitView
+from .views.exam import CreateExamTestView
 from .views.government import GovernmentView
 from .views.hello import HelloView
 from .views.student import add_student, query_student_score_history
 from .views.test import TestView, test
-from .views.school import add_random_school, show_all_school
+from .views.school import add_random_school, SchoolView
 from .views.pages import index
 
 urlpatterns = [
@@ -17,13 +17,13 @@ urlpatterns = [
     path('test/', TestView.as_view()),
     path('test-func/', test),
     path('add-random-school/', add_random_school),
-    path('show-all-school/', show_all_school),
+    path('show-all-school/', SchoolView.as_view()),
     path('add-student/', add_student),
     path('query-student-score-history/', query_student_score_history),
 
-    path('init-course/', init_course),
+    path('init-course/', CourseInitView.as_view()),
     path('course/', CourseView.as_view()),
-    path('new-random-exam/', create_and_test),
+    path('new-random-exam/', CreateExamTestView.as_view()),
 
     # page
     path('index/', index)
