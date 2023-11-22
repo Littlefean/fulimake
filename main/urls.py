@@ -4,7 +4,7 @@ from .views.asyncTest import AsyncView
 from .views.course import CourseView, CourseInitView
 from .views.exam import CreateExamTestView
 from .views.government import GovernmentView
-from .views.hello import HelloView
+from .views.hello import HelloView, HelloList, HelloDetail
 from .views.student import query_student_score_history, StudentView
 from .views.test import TestView, test
 from .views.school import SchoolView
@@ -13,6 +13,8 @@ from .views.pages import IndexView
 urlpatterns = [
     # path("", HelloView.as_view()),
     path('hello/<int:pk>/', HelloView.as_view()),
+    path('hello-list/', HelloList.as_view()),
+    path('hello-detail/<int:pk>/', HelloDetail.as_view()),
 
     path('government/', GovernmentView.as_view()),
     path('test/', TestView.as_view()),

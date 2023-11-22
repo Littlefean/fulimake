@@ -7,6 +7,31 @@ from main.models import Hello
 from main.serializers import HelloSerializer
 
 from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT
+from rest_framework import generics
+
+
+class HelloList(generics.ListCreateAPIView):
+    """
+    GET请求：可以使用请求URL 'http://example.com/hello-list/' 获取所有 Hello 对象的列表。
+    POST请求：可以使用请求URL 'http://example.com/hello-list/' 在服务器上创建新的 Hello 对象。
+    """
+    # 两行代码写出一个接口，离谱
+
+    queryset = Hello.objects.all()
+    serializer_class = HelloSerializer
+    ...
+
+
+class HelloDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    GET请求：可以使用请求URL 'http://example.com/hello-detail/<id>/' 获取具有特定 id 的 Hello 对象的详细信息。
+    PUT请求：可以使用请求URL 'http://example.com/hello-detail/<id>/' 更新具有特定 id 的 Hello 对象的信息。
+    PATCH请求：可以使用请求URL 'http://example.com/hello-detail/<id>/' 部分更新具有特定 id 的 Hello 对象的信息。
+    DELETE请求：可以使用请求URL 'http://example.com/hello-detail/<id>/' 删除具有特定 id 的 Hello 对象。
+    """
+    # 两行代码写出一个接口，离谱
+    queryset = Hello.objects.all()
+    serializer_class = HelloSerializer
 
 
 class HelloView(APIView):
